@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+	<head>
+		<meta encoding="utf=8" />
+		<title>Web PWM</title>
+		<script>
+			window.onload = function() {
+				let slider = document.getElementById("slider");
+				let output = document.getElementById("output");
+				/*let start_btn = document.getElementById("start");
+				let stop_btn = document.getElementById("stop");*/
+				
+				const send = function(url) {
+					fetch(url)
+						.then(response => response.text())
+						.then(data => {
+							output.innerText = data;
+						});
+				}
+				
+				{% if no_update %}
+					let set_btn = document.getElementById("set");
+					set_btn.onclick = function() {
+						send("/set/" + slider.value);
+					}
+				{% else %}
+					slider.oninput = function() {
+						send("/set/" + this.value);
+					}
+				{% endif %}
+				/*start_btn.onclick = function() {
+					send("/start/");
+				}
+				
+				stop_btn.onclick = function() {
+					send("/stop/");
+				}*/
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Web PWM</h1>
+		
+		<p>
+		{% if no_update %}
+			<a href="/home/">Enable auto-update</a>
+		{% else %}
+			<a href="/home/noupdate">Disable auto-update</a>
+		{% endif %}
+		</p>
+		
+		<!--<button id="start">Start</button> <button id="stop">Stop</button>-->
+		<br /><input type="range" value="50" id="slider">
+		{% if no_update %}
+			<br /><button id="set" type="button">Set</button>
+		{% endif %}
+		<br /> <span id="output"></span>
+	</body>
+</html>
