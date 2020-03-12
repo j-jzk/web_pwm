@@ -7,6 +7,7 @@
 			window.onload = function() {
 				let slider = document.getElementById("slider");
 				let output = document.getElementById("output");
+				let freq = document.getElementById("freq");
 				/*let start_btn = document.getElementById("start");
 				let stop_btn = document.getElementById("stop");*/
 				
@@ -22,10 +23,15 @@
 					let set_btn = document.getElementById("set");
 					set_btn.onclick = function() {
 						send("/set/" + slider.value);
+						send("/set_freq/" + freq.value);
 					}
 				{% else %}
 					slider.oninput = function() {
 						send("/set/" + this.value);
+					}
+
+					freq.oninput = function() {
+						send("/set_freq/" + this.value);
 					}
 				{% endif %}
 				/*start_btn.onclick = function() {
@@ -51,6 +57,7 @@
 		
 		<!--<button id="start">Start</button> <button id="stop">Stop</button>-->
 		<br /><input type="range" value="50" id="slider">
+		<br />Frequency: <input type="number" id="freq" value="1000" /> Hz
 		{% if no_update %}
 			<br /><button id="set" type="button">Set</button>
 		{% endif %}

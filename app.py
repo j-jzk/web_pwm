@@ -34,6 +34,15 @@ def set(value):
     except:
         return "Error"
 
+@app.route('/set_freq/<int:value>')
+def set_freq(value):
+    try:
+        p.ChangeFrequency(value)
+        return "Value: %d" % (value)
+    except:
+        return "Error"
+
+
 #clean up on exit
 def cleanup():
     p.stop()
